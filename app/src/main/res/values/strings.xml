@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">BookSearch</string>
+    <string name="app_name">책 검색</string>
+    <string name="search">검색</string>
+    <string name="title">제목: %s</string>
+    <string name="author">저자: %s</string>
+    <string name="publisher">출판사: %s</string>
+    <string name="price">가격: %s</string>
 </resources>
