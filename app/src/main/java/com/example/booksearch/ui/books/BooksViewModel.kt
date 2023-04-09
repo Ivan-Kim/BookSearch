@@ -2,26 +2,28 @@ package com.example.booksearch.ui.books
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
+import com.example.booksearch.data.network.BookItem
 import com.example.booksearch.data.network.BooksRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
+@OptIn(ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class BooksViewModel @Inject constructor(
     private val booksRepository: BooksRepository
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(BooksState())
-    val uiState: StateFlow<BooksState> = _uiState.asStateFlow()
+    private val currQuery = MutableStateFlow("")
+
+    val pagingDataFlow: Flow<PagingData<BookItem>> = currQuery
+        .flatMapLatest { booksRepository.getBooksResultStream(it) }
+        .cachedIn(viewModelScope)
 
     fun updateBooks(query: String) {
-        viewModelScope.launch {
-            val books = booksRepository.getBooks(query)
-            _uiState.value = BooksState(query, books)
-        }
+        currQuery.value = query
     }
 }

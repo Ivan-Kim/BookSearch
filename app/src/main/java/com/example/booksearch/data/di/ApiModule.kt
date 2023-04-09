@@ -1,6 +1,6 @@
 package com.example.booksearch.data.di
 
-import com.example.booksearch.data.network.ApiService
+import com.example.booksearch.data.network.NaverApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -37,6 +37,7 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun providesApiService(retrofit: Retrofit): ApiService = retrofit.create(ApiService::class.java)
+    fun providesNaverApiService(retrofit: Retrofit): NaverApiService =
+        retrofit.create(NaverApiService::class.java)
 
 }

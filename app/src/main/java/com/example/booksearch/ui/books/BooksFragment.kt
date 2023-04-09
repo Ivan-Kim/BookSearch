@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.booksearch.databinding.FragmentBooksBinding
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -58,7 +58,7 @@ class BooksFragment : Fragment() {
         binding.listBooks.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = booksAdapter
-            addItemDecoration(DividerItemDecoration(context, SearchView.VERTICAL))
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL))
         }
     }
 
@@ -68,14 +68,12 @@ class BooksFragment : Fragment() {
     }
 
     private fun collectSearchSuggestions() {
-        lifecycleScope.launch {
+        viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.uiState.collect {
-                    booksAdapter.adapterState = it
-                    booksAdapter.notifyDataSetChanged()
+                viewModel.pagingDataFlow.collectLatest {
+                    booksAdapter.submitData(it)
                 }
             }
         }
     }
-
 }

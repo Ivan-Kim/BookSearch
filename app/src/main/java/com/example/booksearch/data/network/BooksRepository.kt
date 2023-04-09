@@ -1,5 +1,8 @@
 package com.example.booksearch.data.network
 
+import androidx.paging.PagingData
+import kotlinx.coroutines.flow.Flow
+
 interface BooksRepository {
-    suspend fun getBooks(query: String): List<BookItem>
+    fun getBooksResultStream(query: String): Flow<PagingData<BookItem>>
 }
