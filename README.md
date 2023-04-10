@@ -1,4 +1,5 @@
 # BookSearch
+![workflow](https://github.com/Ivan-Kim/BookSearch/actions/workflows/build-workflow.yml/badge.svg)
 
 ## Requirements
 1. 책 검색 메인화면

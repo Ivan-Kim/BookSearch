@@ -1,0 +1,51 @@
+name: Build/Test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+
+      - name: Update Naver API Secret
+        env:
+          ClientId: ${{ secrets.NAVER_CLIENT_ID }}
+          ClientSecret: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: |
+          echo X-Naver-Client-Id="$ClientId" >> ./local.properties
+          echo X-Naver-Client-Secret="$ClientSecret" >> ./local.properties
+          cat ./local.properties
+
+      - name: Update Signing Config Secret
+        env:
+          KeyAlias: ${{ secrets.SIGNING_KEY_ALIAS }}
+          KeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
+          KeyStoreFile: ${{ secrets.KEYSTORE_FILE }}
+          KeyStorePassword: ${{ secrets.KEYSTORE_PASSWORD }}
+        run: |
+          echo KeyStoreFile | base64 --decode > MyKeyStore.jks
+          echo keyAlias=$KeyAlias >> ./keystore.properties
+          echo keyPassword=$KeyPassword >> ./keystore.properties
+          echo storePassword=$KeyStorePassword >> ./keystore.properties
+          echo storeFile=MyKeyStore.jks >> ./keystore.properties
+          cat ./keystore.properties
+
+      - name: Build
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk

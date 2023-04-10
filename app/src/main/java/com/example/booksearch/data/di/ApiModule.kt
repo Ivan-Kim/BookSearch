@@ -5,7 +5,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import com.example.booksearch.BuildConfig
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -17,8 +19,19 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun providesOkHttpClient(): OkHttpClient {
+    fun providesNaverInterceptor(): Interceptor = Interceptor { chain ->
+        val request = chain.request().newBuilder()
+            .addHeader("X-Naver-Client-Id", BuildConfig.ClientId)
+            .addHeader("X-Naver-Client-Secret", BuildConfig.ClientSecret)
+            .build()
+        chain.proceed(request)
+    }
+
+    @Provides
+    @Singleton
+    fun providesOkHttpClient(naverInterceptor: Interceptor): OkHttpClient {
         return OkHttpClient().newBuilder()
+            .addInterceptor(naverInterceptor)
             .connectTimeout(60, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
