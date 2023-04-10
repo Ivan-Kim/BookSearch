@@ -8,9 +8,9 @@
 2. 웹브라우저 화면
 - [x] 결과 책 아이템 클릭 -> 브라우저 로드
 3. 최근 검색 이력 화면
-- 검색 -> 해당 검색어 저장
-- 최근 검색어 메뉴 클릭 -> 최근 검색어 출력
-- 최대 10개
+- [x] 검색 -> 해당 검색어 저장
+- [x] 최근 검색어 메뉴 클릭 -> 최근 검색어 출력
+- [x] 최대 10개
 4. 최근 검색 이력으로 검색한 화면
 - [x] 최근 검색 이력 아이템 클릭 -> 메인 화면 백
 - [x] 해당 검색어 결과 리스트 출력
@@ -28,3 +28,4 @@
 ## References
 - [Naver Book Search API](https://developers.naver.com/docs/serviceapi/search/book/book.md)
 - [Android Paging Advanced Codelab](https://developer.android.com/codelabs/android-paging)
+- [Android Room Documentation](https://developer.android.com/training/data-storage/room)

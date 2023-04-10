@@ -95,6 +95,7 @@ class BooksFragment : Fragment() {
             if (query.isNotBlank()) {
                 binding.textSearch.setText(query)
                 viewModel.updateBooks(query)
+                arguments?.clear()
             }
         }
     }
