@@ -29,3 +29,4 @@
 - [Naver Book Search API](https://developers.naver.com/docs/serviceapi/search/book/book.md)
 - [Android Paging Advanced Codelab](https://developer.android.com/codelabs/android-paging)
 - [Android Room Documentation](https://developer.android.com/training/data-storage/room)
+- https://stackoverflow.com/questions/59481933/how-can-i-extract-secrets-using-github-actions

@@ -1,0 +1,44 @@
+name: Build/Test
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  update-keys:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Update API Keys
+        shell: bash
+        env:
+          NAVER_CLIENT_ID: ${{ secrets.NAVER_CLIENT_ID }}
+          NAVER_CLIENT_SECRET: ${{ secrets.NAVER_CLIENT_SECRET }}
+        run: |
+          echo "X_NAVER_CLIENT_ID=\"${NAVER_CLIENT_ID}\"" >> gradle.properties
+          echo "X_NAVER_CLIENT_SECRET=\"${NAVER_CLIENT_SECRET}\"" >> gradle.properties
+
+  build:
+    needs: update-keys
+    runs-on: 'ubuntu-latest'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Set up JDK
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+
+      - name: Build
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-debug.apk
+          path: app/build/outputs/apk/debug/app-debug.apk
