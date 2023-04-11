@@ -1,5 +1,7 @@
 # BookSearch
 
+https://user-images.githubusercontent.com/57326300/231125491-be4a941f-5178-4059-9f0a-64afdda17445.mp4
+
 ## Requirements
 1. 책 검색 메인화면
 - [x] 검색어 입력 -> 검색 버튼 클릭 -> 결과 리스트 출력
