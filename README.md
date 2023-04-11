@@ -16,14 +16,14 @@
 - [x] 해당 검색어 결과 리스트 출력
 
 ## Tech Stack
-- Room
-- Paging Library
-- Navigation
-- Glide
-- Retrofit/Gson
-- Kotlin Flow/Coroutines
-- ViewModel
-- Hilt
+- Room: 최근 검색어 저장
+- Paging Library: 검색 결과 리스트 출력
+- Navigation + Safe Args: 최근 검색어 화면 <-> 검색 메인화면
+- Glide: 책 이미지 로딩
+- Retrofit/Gson: 네이버 책 API 호출
+- Kotlin Flow/Coroutines: 네트워크/데이터베이스 비동기적 접근
+- ViewModel: MVVM 구조
+- Hilt: 의존성 주입
 
 ## References
 - [Naver Book Search API](https://developers.naver.com/docs/serviceapi/search/book/book.md)
